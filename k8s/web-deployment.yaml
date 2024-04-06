@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minha-biblioteca
+  template:
+    metadata:
+      labels:
+        app: minha-biblioteca
+    spec:
+      containers:
+        - name: minha-biblioteca
+          image: brunaflavia/bibliotecapostgres:4.0
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:changeme@postgres-service/biblioteca"
+          ports:
+            - containerPort: 5000

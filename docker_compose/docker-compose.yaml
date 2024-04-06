@@ -1,0 +1,28 @@
+version: '3'
+
+networks:
+  rotten_net:
+    driver: bridge
+
+services:
+  postgresweb:
+    image: postgres:15
+    networks:
+      - rotten_net
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+
+  webpostgres:
+    image: brunaflavia/bibliotecapostgres:4.0
+    depends_on:
+      - postgresweb
+    networks:
+      - rotten_net
+    environment: 
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+    ports:
+      - "8080:5000"
+
+ 
